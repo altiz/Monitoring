@@ -58,7 +58,7 @@ func monDB() (models.TData_resp, error) {
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{Timeout: 5 * time.Second}
+	client := &http.Client{Timeout: 2 * time.Second}
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -137,7 +137,7 @@ func monUSSD() (models.TData_resp, error) {
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{Timeout: 25 * time.Second}
+	client := &http.Client{Timeout: 8 * time.Second}
 
 	resp, err := client.Do(req)
 	if err != nil {
