@@ -171,11 +171,11 @@ func Run(debug bool) (int, error) {
 		return 0, err1
 	}
 
-	/*pespUSSD, err2 := monUSSD()
+	_, err2 := monUSSD()
 	if err2 != nil {
 		fmt.Println(err2)
-		return "USSD DOWN", 0, pespUSSD
-	}*/
+		return 0, err2
+	}
 
 	return 1, nil
 }
