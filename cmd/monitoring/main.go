@@ -28,9 +28,8 @@ func setConf() Configuration {
 }
 
 func main() {
-	s, err := monitoringUSSD.Run(true)
-	if s > 0 {
-		telegramm.Send("USSD service DOWN!!! /n" + err.Error())
+	_, err := monitoringUSSD.Run(true)
+	if err != nil {
+		telegramm.Send("USSD service DOWN!!! " + err.Error())
 	}
-
 }

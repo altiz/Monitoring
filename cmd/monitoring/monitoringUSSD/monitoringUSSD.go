@@ -99,8 +99,9 @@ func monUSSD() (models.TData_resp, error) {
 	}
 
 	type TData_resp struct {
-		CurrentBalance string `gorm:"column:vCurrentBalance" json:"vCurrentBalance"`
-		Client         string `gorm:"column:nClient" json:"nClient"`
+		Text       string `gorm:"column:text" json:"text"`
+		SessionId  string `gorm:"column:sessionId" json:"sessionId"`
+		EndSession int    `gorm:"column:endSession" json:"endSession"`
 	}
 
 	var req_ TData_req
@@ -145,18 +146,20 @@ func monUSSD() (models.TData_resp, error) {
 		return resp_, err
 	}
 	defer resp.Body.Close()
+
 	body, _ := ioutil.ReadAll(resp.Body)
+
 	if err := json.Unmarshal(body, &bodyObj); err != nil {
 		resp_.Status = "500"
 		resp_.RunTime = time.Now().UnixNano() - beginTime
-		return resp_, errors.New(fmt.Sprint("invalid body"))
+		return resp_, errors.New(fmt.Sprint("invalid body - USSD"))
 	}
 
-	/*if bodyObj.Client != "1282042" {
+	if bodyObj.Text[:12] != "Баланс" {
 		resp_.Status = "500"
 		resp_.RunTime = time.Now().UnixNano() - beginTime
-		return resp_, errors.New(fmt.Sprint("client is not identified"))
-	}*/
+		return resp_, errors.New(fmt.Sprint("client is not identified - USSD"))
+	}
 	resp_.Status = resp.Status
 	resp_.RunTime = time.Now().UnixNano() - beginTime
 	return resp_, nil
