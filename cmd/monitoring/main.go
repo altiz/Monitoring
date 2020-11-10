@@ -2,6 +2,7 @@ package main
 
 import (
 	"Monitoring/cmd/monitoring/monitoringUSSD"
+	"Monitoring/cmd/monitoring/telegramm"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -27,7 +28,9 @@ func setConf() Configuration {
 }
 
 func main() {
-	s, _ := monitoringUSSD.Run(true)
-	fmt.Println(s)
+	s, err := monitoringUSSD.Run(true)
+	if s > 0 {
+		telegramm.Send("USSD service DOWN!!! /n" + err.Error())
+	}
 
 }

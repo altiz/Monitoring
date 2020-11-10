@@ -128,7 +128,6 @@ func monUSSD() (models.TData_resp, error) {
 	}
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(dat))
-	fmt.Println(string(dat))
 	if err != nil {
 		resp_.Status = "500"
 		resp_.RunTime = time.Now().UnixNano() - beginTime
@@ -173,7 +172,6 @@ func Run(debug bool) (int, error) {
 
 	_, err2 := monUSSD()
 	if err2 != nil {
-		fmt.Println(err2)
 		return 0, err2
 	}
 
