@@ -36,7 +36,7 @@ func main() {
 	var ncount int
 	ncount, err1 := commands.Run(true)
 	if err1 != nil {
-		telegramm.Send("Commands_queue service DOWN!!! " + err.Error())
+		telegramm.Send("Commands_queue service DOWN!!! " + err1.Error())
 	}
 	if ncount > 4000 {
 		telegramm.Send("Commands_queue service DOWN!!! Commands = " + string(ncount))
