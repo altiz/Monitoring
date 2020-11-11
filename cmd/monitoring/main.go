@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Monitoring/cmd/monitoring/commands"
 	"Monitoring/cmd/monitoring/monitoringUSSD"
 	"Monitoring/cmd/monitoring/telegramm"
 	"encoding/json"
@@ -31,5 +32,13 @@ func main() {
 	_, err := monitoringUSSD.Run(true)
 	if err != nil {
 		telegramm.Send("USSD service DOWN!!! " + err.Error())
+	}
+	var ncount int
+	ncount, err1 := commands.Run(true)
+	if err1 != nil {
+		telegramm.Send("Commands_queue service DOWN!!! " + err.Error())
+	}
+	if ncount > 4000 {
+		telegramm.Send("Commands_queue service DOWN!!! Commands = " + string(ncount))
 	}
 }

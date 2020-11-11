@@ -1,6 +1,18 @@
+# github.com/go-logfmt/logfmt v0.5.0
+github.com/go-logfmt/logfmt
 # github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
 ## explicit
 github.com/go-telegram-bot-api/telegram-bot-api
+# github.com/godror/godror v0.20.8
+## explicit
+github.com/godror/godror
+github.com/godror/godror/dsn
+github.com/godror/godror/odpi/embed
+github.com/godror/godror/odpi/include
+github.com/godror/godror/odpi/src
 # github.com/technoweenie/multipartstreamer v1.0.1
 ## explicit
 github.com/technoweenie/multipartstreamer
+# golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+golang.org/x/xerrors
+golang.org/x/xerrors/internal
