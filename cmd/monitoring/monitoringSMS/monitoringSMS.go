@@ -1,4 +1,4 @@
-package monitiringSMS
+package monitoringSMS
 
 import (
 	mon "Monitoring/cmd/monitoring/common"

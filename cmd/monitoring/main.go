@@ -2,6 +2,7 @@ package main
 
 import (
 	"Monitoring/cmd/monitoring/commands"
+	"Monitoring/cmd/monitoring/monitoringSMS"
 	"Monitoring/cmd/monitoring/monitoringUSSD"
 	"Monitoring/cmd/monitoring/telegramm"
 	"encoding/json"
@@ -41,4 +42,9 @@ func main() {
 	if ncount > 4000 {
 		telegramm.Send("Commands_queue service DOWN!!! Commands = " + string(ncount))
 	}
+	_, err2 := monitoringSMS.Run(true)
+	if err2 != nil {
+		telegramm.Send("USSD service DOWN!!! " + err.Error())
+	}
+
 }
