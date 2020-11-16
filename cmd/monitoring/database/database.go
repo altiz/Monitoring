@@ -25,12 +25,14 @@ func QuerySQL(sqlTxt string) (models.TData_resp, error) {
 		return resp_, err
 	}
 
-	var thedate string
+	var thedate int
 	for rows.Next() {
 		rows.Scan(&thedate)
 	}
+
 	defer db.Close()
-	resp_.Status = thedate
+	resp_.Status = "200"
+	resp_.Value = thedate
 	resp_.RunTime = time.Now().UnixNano() - beginTime
 	return resp_, nil
 
