@@ -39,7 +39,7 @@ func main() {
 	if err1 != nil {
 		telegramm.Send("Commands_queue service DOWN!!! " + err1.Error())
 	}
-	if ncount > 4000 {
+	if ncount > 4 {
 		telegramm.Send("Commands_queue service DOWN!!! Commands = " + string(ncount))
 	}
 	_, err2 := monitoringSMS.Run(true)
