@@ -2,6 +2,7 @@ package main
 
 import (
 	"Monitoring/cmd/monitoring/commands"
+	"Monitoring/cmd/monitoring/monitoringPAY"
 	"Monitoring/cmd/monitoring/monitoringSMS"
 	"Monitoring/cmd/monitoring/monitoringUSSD"
 	"Monitoring/cmd/monitoring/telegramm"
@@ -35,6 +36,7 @@ func main() {
 	if err != nil {
 		telegramm.Send("USSD service DOWN!!! " + err.Error())
 	}
+
 	var ncount int
 	ncount, err1 := commands.Run(true)
 	if err1 != nil {
@@ -43,9 +45,15 @@ func main() {
 	if ncount > 4000 {
 		telegramm.Send("Commands_queue service DOWN!!! Commands = " + strconv.Itoa(ncount))
 	}
+
 	_, err2 := monitoringSMS.Run(true)
 	if err2 != nil {
-		telegramm.Send("USSD service DOWN!!! " + err.Error())
+		telegramm.Send("USSD service DOWN!!! " + err2.Error())
+	}
+
+	_, err3 := monitoringPAY.Run(true)
+	if err3 != nil {
+		telegramm.Send("PAY service DOWN!!! " + err3.Error())
 	}
 
 }
