@@ -30,7 +30,7 @@ func monPAY() (models.TData_resp, error) {
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/text")
 
-	client := &http.Client{Timeout: 2 * time.Second}
+	client := &http.Client{Timeout: 45 * time.Second}
 
 	resp, err := client.Do(req)
 	if err != nil {
