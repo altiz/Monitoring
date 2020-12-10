@@ -2,11 +2,14 @@ package monitoringPAY
 
 import (
 	"Monitoring/cmd/monitoring/models"
+	"errors"
+	"fmt"
+	"math/rand"
 	"net/http"
 	"time"
 )
 
-func monPAY() (models.TData_resp, error) {
+func monPAY(n int32) (models.TData_resp, error) {
 	const url string = "https://pmnt.tattelecom.ru:4443/osmp.php?command=check&txn_id=1&account=8432633006&sum=10.05&bank=test&prv_id=2&txn_date=20161121000000"
 	const host string = "192.168.143.207"
 
@@ -30,7 +33,7 @@ func monPAY() (models.TData_resp, error) {
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/text")
 
-	client := &http.Client{Timeout: 45 * time.Second}
+	client := &http.Client{Timeout: time.Duration(rand.Int31n(n)) * time.Second}
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -56,9 +59,19 @@ func monPAY() (models.TData_resp, error) {
 func Run(debug bool) (int, error) {
 	//var pespDB models.TData_resp
 	//var pespUSSD models.TData_resp
-	_, err := monPAY()
+	start := time.Now()
+	start.Format("2006.01.02-15.04.05")
+	_, err := monPAY(2)
 	if err != nil {
-		return 0, err
+		_, err2 := monPAY(10)
+		if err2 != nil {
+			_, err3 := monPAY(30)
+			if err3 != nil {
+				elapsed := time.Since(start)
+				fmt.Println(elapsed)
+				return 0, errors.New(fmt.Sprint(start.Format("2006.01.02-15.04.05") + "; RunTime : " + fmt.Sprint(elapsed) + "; Error : " + fmt.Sprint(err.Error())))
+			}
+		}
 	}
 
 	return 1, nil

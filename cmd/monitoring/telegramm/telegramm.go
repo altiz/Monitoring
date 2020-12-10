@@ -15,7 +15,8 @@ func Send(txt string) {
 	bot.Debug = true
 
 	// Созадаем сообщение
-	msg := tgbotapi.NewMessage(-1001418005327, txt)
+	//msg := tgbotapi.NewMessage(-1001418005327, txt)
+	msg := tgbotapi.NewMessage(-403875420, txt)
 	// и отправляем его
 	bot.Send(msg)
 }

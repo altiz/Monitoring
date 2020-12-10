@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 )
 
 type Configuration struct {
@@ -32,28 +33,35 @@ func setConf() Configuration {
 }
 
 func main() {
-	_, err := monitoringUSSD.Run(true)
-	if err != nil {
-		telegramm.Send("USSD service DOWN!!! " + err.Error())
-	}
+	for true {
+		start := time.Now()
+		start.Format("2006.01.02-15.04.05")
+		_, err := monitoringUSSD.Run(true)
+		if err != nil {
+			telegramm.Send("USSD service DOWN!!! " + err.Error())
+		}
 
-	var ncount int
-	ncount, err1 := commands.Run(true)
-	if err1 != nil {
-		telegramm.Send("Commands_queue service DOWN!!! " + err1.Error())
-	}
-	if ncount > 4000 {
-		telegramm.Send("Commands_queue service DOWN!!! Commands = " + strconv.Itoa(ncount))
-	}
+		var ncount int
+		ncount, err1 := commands.Run(true)
+		if err1 != nil {
+			telegramm.Send("Commands_queue service DOWN!!! " + err1.Error())
+		}
+		elapsed := time.Since(start)
+		if ncount > 4000 {
+			telegramm.Send("Commands_queue service DOWN!!! " + fmt.Sprint(start.Format("2006.01.02-15.04.05")+"; RunTime : "+fmt.Sprint(elapsed)+"; Commands = "+strconv.Itoa(ncount)))
+		}
 
-	_, err2 := monitoringSMS.Run(true)
-	if err2 != nil {
-		telegramm.Send("USSD service DOWN!!! " + err2.Error())
-	}
+		_, err2 := monitoringSMS.Run(true)
+		if err2 != nil {
+			telegramm.Send("USSD service DOWN!!! " + err2.Error())
+		}
 
-	_, err3 := monitoringPAY.Run(true)
-	if err3 != nil {
-		telegramm.Send("PAY service DOWN!!! " + err3.Error())
+		go func() {
+			_, err3 := monitoringPAY.Run(true)
+			if err3 != nil {
+				telegramm.Send("PAY service DOWN!!! " + err3.Error())
+			}
+		}()
+		time.Sleep(300 * time.Second)
 	}
-
 }
