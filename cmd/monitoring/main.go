@@ -35,6 +35,7 @@ func setConf() Configuration {
 func main() {
 	for true {
 		start := time.Now()
+		fmt.Println(start.Format("2006.01.02-15.04.05") + " | START")
 		start.Format("2006.01.02-15.04.05")
 		_, err := monitoringUSSD.Run(true)
 		if err != nil {
@@ -62,6 +63,7 @@ func main() {
 				telegramm.Send("PAY service DOWN!!! " + err3.Error())
 			}
 		}()
+		fmt.Println(start.Format("2006.01.02-15.04.05") + " | STOP | RunTime : " + fmt.Sprint(elapsed) + " |")
 		time.Sleep(300 * time.Second)
 	}
 }
